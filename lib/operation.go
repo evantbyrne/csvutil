@@ -20,6 +20,9 @@ func MapOperation(name string, arg string) (error, Operation) {
 	case "select":
 		operation = &OperationSelect{}
 		break
+	case "where":
+		operation = &OperationWhere{}
+		break
 	default:
 		fmt.Printf("No operation matching '--%s'.\n", name)
 		os.Exit(1)
