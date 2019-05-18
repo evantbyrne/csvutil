@@ -26,7 +26,7 @@ func (this *Source) ColumnIndex(key string) int {
 }
 
 func (this *Source) ContainsRow(row []string) bool {
-	for _, b := range this.Rows {
+	for _, b := range this.Rows[1:] {
 		if ArraysEqual(row, b) {
 			return true
 		}
@@ -61,8 +61,7 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 		operation = &OperationWhere{}
 		break
 	default:
-		fmt.Printf("No operation matching '%s'.\n", args[0])
-		os.Exit(1)
+		return fmt.Errorf("No operation matching '%s'.", args[0]), operation, []string{}
 	}
 
 	err, remainingArgs := operation.Construct(this, args)
