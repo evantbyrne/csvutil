@@ -9,7 +9,7 @@ import (
 
 func main() {
 	args := os.Args[1:]
-	source := lib.ArgList(args)
+	source := lib.ArgList(args, nil)
 	if source == nil {
 		return
 	}

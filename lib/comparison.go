@@ -1,48 +1,49 @@
 package lib
 
 import (
-	// "errors"
 	"fmt"
-	"strings"
 )
 
 type Comparison struct {
-	Left      string
-	LeftType  string
-	Operator  string
-	Right     string
-	RightType string
+	Column   string
+	Operator string
+	Values   []string
 }
 
-func ConstructComparison(name string, value string) (error, *Comparison) {
+func (this *Comparison) Match(source *Source, row []string) bool {
+	columnIndex := source.ColumnIndex(this.Column)
+	switch this.Operator {
+	case "==":
+		return row[columnIndex] == this.Values[0]
+	case "!=":
+		return row[columnIndex] != this.Values[0]
+	}
+	return false
+}
+
+func ConstructComparison(operation string, column string, operator string, args []string) (error, *Comparison, []string) {
+	var remainingArgs []string
+
 	comparison := &Comparison{
-		Operator: "=",
+		Column:   column,
+		Operator: operator,
+		Values:   []string{},
 	}
 
-	if value == "" {
-		return fmt.Errorf("--%s expected comparison.\n", name), nil
+	if column == "" {
+		return fmt.Errorf("%s opreration requires a column name for the first argument.", operation), nil, []string{}
 	}
 
-	parts := strings.SplitN(value, "=", 2)
-	if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
-		return fmt.Errorf("--%s expected comparison, recieved '%s'.\n", name, value), nil
+	if len(args) < 1 {
+		return fmt.Errorf("%s opreration requires at least three arguments", operation), nil, []string{}
 	}
 
-	if strings.HasPrefix(parts[0], ":") {
-		comparison.Left = parts[0][1:]
-		comparison.LeftType = "column"
+	if operator == "==" || operator == "!=" {
+		remainingArgs = args[1:]
+		comparison.Values = []string{args[0]}
 	} else {
-		// Forcing left side to be a column simplifies parsing.
-		return fmt.Errorf("--%s requires left side of comparison to reference a column (e.g., ':name=value'), recieved '%s'.", name, value), nil
+		return fmt.Errorf("%s opreration requires second argument to be valid operator, '%s' given.", operation, operator), nil, []string{}
 	}
 
-	if strings.HasPrefix(parts[1], ":") {
-		comparison.Right = parts[1][1:]
-		comparison.RightType = "column"
-	} else {
-		comparison.Right = parts[1]
-		comparison.RightType = "value"
-	}
-
-	return nil, comparison
+	return nil, comparison, remainingArgs
 }

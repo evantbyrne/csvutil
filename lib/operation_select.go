@@ -9,12 +9,12 @@ type OperationSelect struct {
 	columns []string
 }
 
-func (this *OperationSelect) Construct(arg string) error {
-	if arg == "" {
-		return errors.New("--select operation requires a value.")
+func (this *OperationSelect) Construct(args []string) (error, []string) {
+	if len(args) < 2 || args[1] == "" {
+		return errors.New("--select operation requires a value."), []string{}
 	}
-	this.columns = strings.Split(arg, ",")
-	return nil
+	this.columns = strings.Split(args[1], ",")
+	return nil, args[2:]
 }
 
 func (this *OperationSelect) Run(source *Source) error {

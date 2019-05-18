@@ -6,28 +6,28 @@ import (
 )
 
 type Operation interface {
-	Construct(string) error
+	Construct([]string) (error, []string)
 	Run(*Source) error
 }
 
-func MapOperation(name string, arg string) (error, Operation) {
+func MapOperation(args []string) (error, Operation, []string) {
 	var operation Operation
 
-	switch name {
-	case "except":
+	switch args[0] {
+	case "--except":
 		operation = &OperationExcept{}
 		break
-	case "select":
+	case "--select":
 		operation = &OperationSelect{}
 		break
-	case "where":
+	case "--where":
 		operation = &OperationWhere{}
 		break
 	default:
-		fmt.Printf("No operation matching '--%s'.\n", name)
+		fmt.Printf("No operation matching '%s'.\n", args[0])
 		os.Exit(1)
 	}
 
-	err := operation.Construct(arg)
-	return err, operation
+	err, remainingArgs := operation.Construct(args)
+	return err, operation, remainingArgs
 }

@@ -1,36 +1,30 @@
 package lib
 
+import (
+	"errors"
+)
+
 type OperationWhere struct {
 	comparison *Comparison
 }
 
-func (this *OperationWhere) Construct(arg string) error {
-	err, comparison := ConstructComparison("where", arg)
-	if err != nil {
-		return err
+func (this *OperationWhere) Construct(args []string) (error, []string) {
+	if len(args) < 4 {
+		return errors.New("--where operation requires three arguments."), []string{}
 	}
-
+	err, comparison, remainingArgs := ConstructComparison("--where", args[1], args[2], args[3:])
+	if err != nil {
+		return err, []string{}
+	}
 	this.comparison = comparison
-	return nil
+	return nil, remainingArgs
 }
 
 func (this *OperationWhere) Run(source *Source) error {
-	var rightIndex int
-	if this.comparison.RightType == "column" {
-		rightIndex = source.ColumnIndex(this.comparison.Right)
-	}
-	leftIndex := source.ColumnIndex(this.comparison.Left)
-
 	var rows [][]string
 	for _, row := range source.Rows {
-		if this.comparison.RightType == "value" {
-			if row[leftIndex] == this.comparison.Right {
-				rows = append(rows, row)
-			}
-		} else {
-			if row[leftIndex] == row[rightIndex] {
-				rows = append(rows, row)
-			}
+		if this.comparison.Match(source, row) {
+			rows = append(rows, row)
 		}
 	}
 	source.Rows = rows

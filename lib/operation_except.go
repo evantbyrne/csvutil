@@ -6,11 +6,8 @@ import (
 
 type OperationExcept struct{}
 
-func (this *OperationExcept) Construct(arg string) error {
-	if arg != "" {
-		return errors.New("--except operation does not take a value.")
-	}
-	return nil
+func (this *OperationExcept) Construct(args []string) (error, []string) {
+	return nil, args[1:]
 }
 
 func (this *OperationExcept) Run(source *Source) error {

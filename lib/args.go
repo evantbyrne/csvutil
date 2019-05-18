@@ -6,37 +6,33 @@ import (
 	"strings"
 )
 
-func ArgList(args []string) *Source {
-	var source *Source
-
-	for _, arg := range args {
-
+func ArgList(args []string, source *Source) *Source {
+	if source != nil && strings.HasPrefix(args[0], "--") {
 		// Operations
-		if source != nil && strings.HasPrefix(arg, "--") {
-			parts := strings.SplitN(arg[2:], "=", 2)
-			value := ""
-			if len(parts) == 2 {
-				value = parts[1]
+		err, operation, remainingArgs := MapOperation(args)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		source.Operations = append(source.Operations, operation)
+		args = remainingArgs
+	} else {
+		// Sources
+		if source == nil {
+			source = &Source{
+				Path: args[0],
 			}
-			err, operation := MapOperation(parts[0], value)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			source.Operations = append(source.Operations, operation)
 		} else {
-			// Sources
-			if source == nil {
-				source = &Source{
-					Path: arg,
-				}
-			} else {
-				source = &Source{
-					Previous: source,
-					Path:     arg,
-				}
+			source = &Source{
+				Previous: source,
+				Path:     args[0],
 			}
 		}
+		args = args[1:]
+	}
+
+	if len(args) > 0 {
+		return ArgList(args, source)
 	}
 
 	return source
