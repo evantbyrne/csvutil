@@ -6,7 +6,7 @@ import (
 
 type OperationExcept struct{}
 
-func (this *OperationExcept) Construct(args []string) (error, []string) {
+func (this *OperationExcept) Construct(source *Source, args []string) (error, []string) {
 	return nil, args[1:]
 }
 

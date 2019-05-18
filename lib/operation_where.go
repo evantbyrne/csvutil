@@ -5,10 +5,10 @@ import (
 )
 
 type OperationWhere struct {
-	comparison *Comparison
+	Comparisons []*Comparison
 }
 
-func (this *OperationWhere) Construct(args []string) (error, []string) {
+func (this *OperationWhere) Construct(source *Source, args []string) (error, []string) {
 	if len(args) < 4 {
 		return errors.New("--where operation requires three arguments."), []string{}
 	}
@@ -16,15 +16,19 @@ func (this *OperationWhere) Construct(args []string) (error, []string) {
 	if err != nil {
 		return err, []string{}
 	}
-	this.comparison = comparison
+	this.Comparisons = append(this.Comparisons, comparison)
 	return nil, remainingArgs
 }
 
 func (this *OperationWhere) Run(source *Source) error {
 	var rows [][]string
-	for _, row := range source.Rows {
-		if this.comparison.Match(source, row) {
-			rows = append(rows, row)
+	rows = append(rows, source.Rows[0])
+	for _, row := range source.Rows[1:] {
+		for _, comparison := range this.Comparisons {
+			if comparison.Match(source, row) {
+				rows = append(rows, row)
+				break
+			}
 		}
 	}
 	source.Rows = rows

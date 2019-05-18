@@ -9,7 +9,7 @@ import (
 func ArgList(args []string, source *Source) *Source {
 	if source != nil && strings.HasPrefix(args[0], "--") {
 		// Operations
-		err, operation, remainingArgs := MapOperation(args)
+		err, operation, remainingArgs := source.MapOperation(args)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

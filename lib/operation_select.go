@@ -9,7 +9,7 @@ type OperationSelect struct {
 	columns []string
 }
 
-func (this *OperationSelect) Construct(args []string) (error, []string) {
+func (this *OperationSelect) Construct(source *Source, args []string) (error, []string) {
 	if len(args) < 2 || args[1] == "" {
 		return errors.New("--select operation requires a value."), []string{}
 	}
