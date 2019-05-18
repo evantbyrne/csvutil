@@ -39,6 +39,9 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	var operation Operation
 
 	switch args[0] {
+	case "--count":
+		operation = &OperationCount{}
+		break
 	case "--except":
 		operation = &OperationExcept{}
 		break
@@ -47,6 +50,9 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 		break
 	case "--select":
 		operation = &OperationSelect{}
+		break
+	case "--values":
+		operation = &OperationValues{}
 		break
 	case "--where":
 		operation = &OperationWhere{}
