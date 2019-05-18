@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Comparison struct {
@@ -17,13 +18,26 @@ func (this *Comparison) Match(source *Source, row []string) bool {
 		return row[columnIndex] == this.Values[0]
 	case "!=":
 		return row[columnIndex] != this.Values[0]
+	case "IN":
+		for _, value := range strings.Split(this.Values[0], ",") {
+			if row[columnIndex] == value {
+				return true
+			}
+		}
+	case "NOT_IN":
+		for _, value := range strings.Split(this.Values[0], ",") {
+			if row[columnIndex] == value {
+				return false
+			}
+		}
+		return true
 	}
 	return false
 }
 
 func ConstructComparison(operation string, column string, operator string, args []string) (error, *Comparison, []string) {
 	var remainingArgs []string
-
+	operator = strings.ToUpper(operator)
 	comparison := &Comparison{
 		Column:   column,
 		Operator: operator,
@@ -38,7 +52,7 @@ func ConstructComparison(operation string, column string, operator string, args 
 		return fmt.Errorf("%s opreration requires at least three arguments", operation), nil, []string{}
 	}
 
-	if operator == "==" || operator == "!=" {
+	if operator == "==" || operator == "!=" || operator == "IN" || operator == "NOT_IN" {
 		remainingArgs = args[1:]
 		comparison.Values = []string{args[0]}
 	} else {
