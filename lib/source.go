@@ -32,6 +32,9 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	case "--concat":
 		operation = &OperationConcat{}
 		break
+	case "--distinct":
+		operation = &OperationDistinct{}
+		break
 	case "--count":
 		operation = &OperationCount{}
 		break
