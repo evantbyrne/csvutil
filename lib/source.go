@@ -47,6 +47,9 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	case "--select":
 		operation = &OperationSelect{}
 		break
+	case "--sort":
+		operation = &OperationSort{}
+		break
 	case "--values":
 		operation = &OperationValues{}
 		break
