@@ -25,16 +25,6 @@ func (this *Source) ColumnIndex(key string) int {
 	return 0
 }
 
-func (this *Source) ContainsRow(row []string) bool {
-	for _, b := range this.Rows[1:] {
-		if ArraysEqual(row, b) {
-			return true
-		}
-	}
-
-	return false
-}
-
 func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	var operation Operation
 
