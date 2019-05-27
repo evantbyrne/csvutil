@@ -41,6 +41,9 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	case "--except":
 		operation = &OperationExcept{}
 		break
+	case "--join":
+		operation = &OperationJoin{}
+		break
 	case "--or":
 		operation = &OperationOr{}
 		break
