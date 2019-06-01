@@ -34,7 +34,10 @@ func (this *OperationSort) Construct(source *Source, args []string) (error, []st
 }
 
 func (this *OperationSort) Run(source *Source) error {
-	columnIndex := source.ColumnIndex(this.column)
+	err, columnIndex := source.ColumnIndex(this.column)
+	if err != nil {
+		return nil
+	}
 	header := source.Rows[0]
 	rows := source.Rows[1:]
 	sort.Slice(rows, func(i, j int) bool {

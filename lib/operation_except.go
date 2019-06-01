@@ -36,7 +36,11 @@ func (this *OperationExcept) Run(source *Source) error {
 		}
 	} else {
 		for _, key := range strings.Split(this.columns, ",") {
-			columnIndexes = append(columnIndexes, source.ColumnIndex(key))
+			err, columnIndex := source.ColumnIndex(key)
+			if err != nil {
+				return err
+			}
+			columnIndexes = append(columnIndexes, columnIndex)
 		}
 	}
 

@@ -22,6 +22,11 @@ func (this *OperationWhere) Construct(source *Source, args []string) (error, []s
 
 func (this *OperationWhere) Run(source *Source) error {
 	var rows [][]string
+	for _, comparison := range this.Comparisons {
+		if err := comparison.PrepareMatch(source); err != nil {
+			return err
+		}
+	}
 	rows = append(rows, source.Rows[0])
 	for _, row := range source.Rows[1:] {
 		for _, comparison := range this.Comparisons {

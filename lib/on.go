@@ -23,9 +23,18 @@ func (this *On) Match(leftRow []string, rightRow []string) bool {
 	return false
 }
 
-func (this *On) PrepareMatch(source *Source) {
-	this.IndexRight = source.ColumnIndex(this.ColumnRight)
-	this.IndexLeft = source.Previous.ColumnIndex(this.ColumnLeft)
+func (this *On) PrepareMatch(source *Source) error {
+	err, indexRight := source.ColumnIndex(this.ColumnRight)
+	if err != nil {
+		return err
+	}
+	err, indexLeft := source.Previous.ColumnIndex(this.ColumnLeft)
+	if err != nil {
+		return err
+	}
+	this.IndexRight = indexRight
+	this.IndexLeft = indexLeft
+	return nil
 }
 
 func ConstructOn(operation string, columnLeft string, operator string, columnRight string) (error, *On) {

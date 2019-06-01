@@ -13,16 +13,14 @@ type Source struct {
 	Rows       [][]string
 }
 
-func (this *Source) ColumnIndex(key string) int {
+func (this *Source) ColumnIndex(key string) (error, int) {
 	for i, value := range this.Rows[0] {
 		if key == value {
-			return i
+			return nil, i
 		}
 	}
 
-	fmt.Printf("Invalid column '%s' for '%s'.\n", key, this.Path)
-	os.Exit(1)
-	return 0
+	return fmt.Errorf("Invalid column '%s' for '%s'.", key, this.Path), -1
 }
 
 func (this *Source) MapOperation(args []string) (error, Operation, []string) {
@@ -67,38 +65,40 @@ func (this *Source) MapOperation(args []string) (error, Operation, []string) {
 	return err, operation, remainingArgs
 }
 
-func (this *Source) ReadAll() {
+func (this *Source) ReadAll() error {
 	fh, err := os.Open(this.Path)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
 	defer fh.Close()
+	if err != nil {
+		return err
+	}
 
 	rows, err := csv.NewReader(fh).ReadAll()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
 
 	if len(rows) == 0 {
-		fmt.Printf("Empty source '%s'.\n", this.Path)
-		os.Exit(1)
+		return fmt.Errorf("Empty source '%s'.", this.Path)
 	}
 
 	this.Rows = rows
+	return nil
 }
 
-func (this *Source) Run() {
+func (this *Source) Run() error {
 	if this.Previous != nil {
 		this.Previous.Run()
 	}
 
-	this.ReadAll()
+	if err := this.ReadAll(); err != nil {
+		return err
+	}
+
 	for _, operation := range this.Operations {
 		if err := operation.Run(this); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return err
 		}
 	}
+
+	return nil
 }

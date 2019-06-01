@@ -1,18 +1,15 @@
 package lib
 
 import (
-	"fmt"
-	"os"
 	"strings"
 )
 
-func ArgList(args []string, source *Source) *Source {
+func ArgList(args []string, source *Source) (error, *Source) {
 	if source != nil && strings.HasPrefix(args[0], "--") {
 		// Operations
 		err, operation, remainingArgs := source.MapOperation(args)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return err, nil
 		}
 		source.Operations = append(source.Operations, operation)
 		args = remainingArgs
@@ -35,5 +32,5 @@ func ArgList(args []string, source *Source) *Source {
 		return ArgList(args, source)
 	}
 
-	return source
+	return nil, source
 }

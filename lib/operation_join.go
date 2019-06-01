@@ -25,7 +25,9 @@ func (this *OperationJoin) Run(source *Source) error {
 	header := append(source.Previous.Rows[0], source.Rows[0]...)
 	rows = append(rows, header)
 	for _, on := range this.Comparisons {
-		on.PrepareMatch(source)
+		if err := on.PrepareMatch(source); err != nil {
+			return err
+		}
 	}
 	for _, rowRight := range source.Rows[1:] {
 		for _, rowLeft := range source.Previous.Rows[1:] {

@@ -6,33 +6,42 @@ import (
 )
 
 type Comparison struct {
-	Column   string
-	Operator string
-	Values   []string
+	Column      string
+	ColumnIndex int
+	Operator    string
+	Values      []string
 }
 
 func (this *Comparison) Match(source *Source, row []string) bool {
-	columnIndex := source.ColumnIndex(this.Column)
 	switch this.Operator {
 	case "==":
-		return row[columnIndex] == this.Values[0]
+		return row[this.ColumnIndex] == this.Values[0]
 	case "!=":
-		return row[columnIndex] != this.Values[0]
+		return row[this.ColumnIndex] != this.Values[0]
 	case "IN":
 		for _, value := range strings.Split(this.Values[0], ",") {
-			if row[columnIndex] == value {
+			if row[this.ColumnIndex] == value {
 				return true
 			}
 		}
 	case "NOT_IN":
 		for _, value := range strings.Split(this.Values[0], ",") {
-			if row[columnIndex] == value {
+			if row[this.ColumnIndex] == value {
 				return false
 			}
 		}
 		return true
 	}
 	return false
+}
+
+func (this *Comparison) PrepareMatch(source *Source) error {
+	err, columnIndex := source.ColumnIndex(this.Column)
+	if err != nil {
+		return err
+	}
+	this.ColumnIndex = columnIndex
+	return nil
 }
 
 func ConstructComparison(operation string, column string, operator string, args []string) (error, *Comparison, []string) {

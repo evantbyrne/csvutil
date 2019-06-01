@@ -20,7 +20,11 @@ func (this *OperationSelect) Construct(source *Source, args []string) (error, []
 func (this *OperationSelect) Run(source *Source) error {
 	var indices []int
 	for _, key := range this.columns {
-		indices = append(indices, source.ColumnIndex(key))
+		err, columnIndex := source.ColumnIndex(key)
+		if err != nil {
+			return err
+		}
+		indices = append(indices, columnIndex)
 	}
 
 	for i, row := range source.Rows {
