@@ -3,6 +3,13 @@
 Command line utility for transforming CSV files.
 
 
+## Design Choices
+
+- Human-readable. Operations and arguments should be easy to remember. There is no shorthand syntax.
+- Safe. External programs that can properly escape shell strings should be able to spawn csvutil processes safely.
+- Not a database. All operations are done in memory and there are no fancy tricks to speed things up.
+
+
 ## Install
 
 Make sure that [Go](https://golang.org/) 1.9+ is installed and your PATH includes GOBIN. Then run the following:
