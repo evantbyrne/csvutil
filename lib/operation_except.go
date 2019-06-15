@@ -45,7 +45,8 @@ func (this *OperationExcept) Run(source *Source) error {
 	}
 
 	var rows [][]string
-	for _, previousRow := range source.Previous.Rows {
+	rows = append(rows, source.Previous.Rows[0])
+	for _, previousRow := range source.Previous.Rows[1:] {
 		exclude := false
 		for _, row := range source.Rows {
 			allMatch := true

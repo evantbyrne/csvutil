@@ -30,7 +30,7 @@ func (this *OperationWhere) Run(source *Source) error {
 	rows = append(rows, source.Rows[0])
 	for _, row := range source.Rows[1:] {
 		for _, comparison := range this.Comparisons {
-			if comparison.Match(source, row) {
+			if comparison.Match(row) {
 				rows = append(rows, row)
 				break
 			}

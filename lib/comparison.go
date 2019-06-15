@@ -12,7 +12,7 @@ type Comparison struct {
 	Values      []string
 }
 
-func (this *Comparison) Match(source *Source, row []string) bool {
+func (this *Comparison) Match(row []string) bool {
 	switch this.Operator {
 	case "==":
 		return row[this.ColumnIndex] == this.Values[0]

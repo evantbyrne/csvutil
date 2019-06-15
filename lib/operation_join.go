@@ -21,6 +21,10 @@ func (this *OperationJoin) Construct(source *Source, args []string) (error, []st
 }
 
 func (this *OperationJoin) Run(source *Source) error {
+	if source.Previous == nil {
+		return errors.New("--join operation cannot be run on first source.")
+	}
+
 	var rows [][]string
 	header := append(source.Previous.Rows[0], source.Rows[0]...)
 	rows = append(rows, header)
