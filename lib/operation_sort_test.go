@@ -6,25 +6,25 @@ import (
 
 func TestOperationSort(t *testing.T) {
 	expected := [][]string{
-		[]string{"year", "cost"},
-		[]string{"10", "500"},
-		[]string{"2", "200.10"},
-		[]string{"2000", "50.01"},
-		[]string{"2019", "1000.99"},
-		[]string{"x", "x"},
-		[]string{"y", "z"},
-		[]string{"z", "y"},
+		{"year", "cost"},
+		{"10", "500"},
+		{"2", "200.10"},
+		{"2000", "50.01"},
+		{"2019", "1000.99"},
+		{"x", "x"},
+		{"y", "z"},
+		{"z", "y"},
 	}
 	source := &Source{
 		Rows: [][]string{
-			[]string{"year", "cost"},
-			[]string{"10", "500"},
-			[]string{"2", "200.10"},
-			[]string{"2000", "50.01"},
-			[]string{"x", "x"},
-			[]string{"2019", "1000.99"},
-			[]string{"y", "z"},
-			[]string{"z", "y"},
+			{"year", "cost"},
+			{"10", "500"},
+			{"2", "200.10"},
+			{"2000", "50.01"},
+			{"x", "x"},
+			{"2019", "1000.99"},
+			{"y", "z"},
+			{"z", "y"},
 		},
 	}
 	operation := &OperationSort{}
@@ -54,14 +54,14 @@ func TestOperationSort(t *testing.T) {
 	}
 
 	expected = [][]string{
-		[]string{"year", "cost"},
-		[]string{"z", "y"},
-		[]string{"y", "z"},
-		[]string{"x", "x"},
-		[]string{"2019", "1000.99"},
-		[]string{"2000", "50.01"},
-		[]string{"2", "200.10"},
-		[]string{"10", "500"},
+		{"year", "cost"},
+		{"z", "y"},
+		{"y", "z"},
+		{"x", "x"},
+		{"2019", "1000.99"},
+		{"2000", "50.01"},
+		{"2", "200.10"},
+		{"10", "500"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "year", "ALPHA", "DESC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
@@ -74,14 +74,14 @@ func TestOperationSort(t *testing.T) {
 	}
 
 	expected = [][]string{
-		[]string{"year", "cost"},
-		[]string{"x", "x"},
-		[]string{"y", "z"},
-		[]string{"z", "y"},
-		[]string{"2", "200.10"},
-		[]string{"10", "500"},
-		[]string{"2000", "50.01"},
-		[]string{"2019", "1000.99"},
+		{"year", "cost"},
+		{"x", "x"},
+		{"y", "z"},
+		{"z", "y"},
+		{"2", "200.10"},
+		{"10", "500"},
+		{"2000", "50.01"},
+		{"2019", "1000.99"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "year", "INT", "ASC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
@@ -94,14 +94,14 @@ func TestOperationSort(t *testing.T) {
 	}
 
 	expected = [][]string{
-		[]string{"year", "cost"},
-		[]string{"2019", "1000.99"},
-		[]string{"2", "200.10"},
-		[]string{"2000", "50.01"},
-		[]string{"x", "x"},
-		[]string{"z", "y"},
-		[]string{"y", "z"},
-		[]string{"10", "500"},
+		{"year", "cost"},
+		{"2019", "1000.99"},
+		{"2", "200.10"},
+		{"2000", "50.01"},
+		{"x", "x"},
+		{"z", "y"},
+		{"y", "z"},
+		{"10", "500"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "cost", "INT", "ASC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
@@ -114,14 +114,14 @@ func TestOperationSort(t *testing.T) {
 	}
 
 	expected = [][]string{
-		[]string{"year", "cost"},
-		[]string{"x", "x"},
-		[]string{"z", "y"},
-		[]string{"y", "z"},
-		[]string{"2000", "50.01"},
-		[]string{"2", "200.10"},
-		[]string{"10", "500"},
-		[]string{"2019", "1000.99"},
+		{"year", "cost"},
+		{"x", "x"},
+		{"z", "y"},
+		{"y", "z"},
+		{"2000", "50.01"},
+		{"2", "200.10"},
+		{"10", "500"},
+		{"2019", "1000.99"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "cost", "FLOAT", "ASC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)

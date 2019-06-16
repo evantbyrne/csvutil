@@ -7,12 +7,12 @@ import (
 func TestOperationJoin(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"username", "id", "group_id"},
-			[]string{"foo", "1", "10"},
-			[]string{"bar", "2", ""},
-			[]string{"baz", "3", "20"},
-			[]string{"four", "4", "20"},
-			[]string{"five", "5", ""},
+			{"username", "id", "group_id"},
+			{"foo", "1", "10"},
+			{"bar", "2", ""},
+			{"baz", "3", "20"},
+			{"four", "4", "20"},
+			{"five", "5", ""},
 		},
 	}
 	operation := &OperationJoin{}
@@ -33,26 +33,26 @@ func TestOperationJoin(t *testing.T) {
 	}
 
 	expected := [][]string{
-		[]string{"username", "id", "group_id", "name", "id"},
-		[]string{"foo", "1", "10", "Admin", "10"},
-		[]string{"baz", "3", "20", "Moderator", "20"},
-		[]string{"four", "4", "20", "Moderator", "20"},
+		{"username", "id", "group_id", "name", "id"},
+		{"foo", "1", "10", "Admin", "10"},
+		{"baz", "3", "20", "Moderator", "20"},
+		{"four", "4", "20", "Moderator", "20"},
 	}
 	source = &Source{
 		Previous: &Source{
 			Rows: [][]string{
-				[]string{"username", "id", "group_id"},
-				[]string{"foo", "1", "10"},
-				[]string{"bar", "2", ""},
-				[]string{"baz", "3", "20"},
-				[]string{"four", "4", "20"},
-				[]string{"five", "5", ""},
+				{"username", "id", "group_id"},
+				{"foo", "1", "10"},
+				{"bar", "2", ""},
+				{"baz", "3", "20"},
+				{"four", "4", "20"},
+				{"five", "5", ""},
 			},
 		},
 		Rows: [][]string{
-			[]string{"name", "id"},
-			[]string{"Admin", "10"},
-			[]string{"Moderator", "20"},
+			{"name", "id"},
+			{"Admin", "10"},
+			{"Moderator", "20"},
 		},
 	}
 	if err, _ := operation.Construct(source, []string{"--join", "group_id", "==", "id"}); err != nil {

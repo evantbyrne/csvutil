@@ -8,18 +8,18 @@ func TestOn(t *testing.T) {
 	source := &Source{
 		Previous: &Source{
 			Rows: [][]string{
-				[]string{"username", "id", "group_id"},
-				[]string{"foo", "1", "10"},
-				[]string{"bar", "2", ""},
-				[]string{"baz", "3", "20"},
-				[]string{"four", "4", "20"},
-				[]string{"five", "5", ""},
+				{"username", "id", "group_id"},
+				{"foo", "1", "10"},
+				{"bar", "2", ""},
+				{"baz", "3", "20"},
+				{"four", "4", "20"},
+				{"five", "5", ""},
 			},
 		},
 		Rows: [][]string{
-			[]string{"name", "id"},
-			[]string{"Admin", "10"},
-			[]string{"Moderator", "20"},
+			{"name", "id"},
+			{"Admin", "10"},
+			{"Moderator", "20"},
 		},
 	}
 

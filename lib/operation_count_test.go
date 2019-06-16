@@ -7,10 +7,10 @@ import (
 func TestOperationCount(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Bar"},
-			[]string{"3", "Baz"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Bar"},
+			{"3", "Baz"},
 		},
 	}
 	operation := &OperationCount{}
@@ -25,8 +25,8 @@ func TestOperationCount(t *testing.T) {
 	}
 
 	expected := [][]string{
-		[]string{"total"},
-		[]string{"3"},
+		{"total"},
+		{"3"},
 	}
 	if !rowsEqual(source.Rows, expected) {
 		t.Fatalf("Unexpected --count results: %v", source.Rows)

@@ -7,13 +7,13 @@ import (
 func TestOperationDistinct(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Foo"},
-			[]string{"3", "Bar"},
-			[]string{"4", "Baz"},
-			[]string{"5", "Foobar"},
-			[]string{"4", "Baz"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Foo"},
+			{"3", "Bar"},
+			{"4", "Baz"},
+			{"5", "Foobar"},
+			{"4", "Baz"},
 		},
 	}
 	operation := &OperationDistinct{}
@@ -22,12 +22,12 @@ func TestOperationDistinct(t *testing.T) {
 	}
 
 	expected := [][]string{
-		[]string{"id", "name"},
-		[]string{"1", "Foo"},
-		[]string{"2", "Foo"},
-		[]string{"3", "Bar"},
-		[]string{"4", "Baz"},
-		[]string{"5", "Foobar"},
+		{"id", "name"},
+		{"1", "Foo"},
+		{"2", "Foo"},
+		{"3", "Bar"},
+		{"4", "Baz"},
+		{"5", "Foobar"},
 	}
 	if err, _ := operation.Construct(source, []string{"--distinct", "*"}); err != nil {
 		t.Fatalf("Unexpected --count failure: %s", err)
@@ -49,11 +49,11 @@ func TestOperationDistinct(t *testing.T) {
 	}
 
 	expected = [][]string{
-		[]string{"id", "name"},
-		[]string{"1", "Foo"},
-		[]string{"3", "Bar"},
-		[]string{"4", "Baz"},
-		[]string{"5", "Foobar"},
+		{"id", "name"},
+		{"1", "Foo"},
+		{"3", "Bar"},
+		{"4", "Baz"},
+		{"5", "Foobar"},
 	}
 	if err, _ := operation.Construct(source, []string{"--distinct", "name"}); err != nil {
 		t.Fatalf("Unexpected --count failure: %s", err)

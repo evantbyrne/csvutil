@@ -7,12 +7,12 @@ import (
 func TestOperationExcept(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Oof"},
-			[]string{"2", "Bar"},
-			[]string{"3", "Zab"},
-			[]string{"4", "Foobar"},
-			[]string{"5", "Foo"},
+			{"id", "name"},
+			{"1", "Oof"},
+			{"2", "Bar"},
+			{"3", "Zab"},
+			{"4", "Foobar"},
+			{"5", "Foo"},
 		},
 	}
 	operation := &OperationExcept{}
@@ -27,17 +27,17 @@ func TestOperationExcept(t *testing.T) {
 	}
 
 	expected := [][]string{
-		[]string{"id", "name"},
-		[]string{"1", "Foo"},
-		[]string{"3", "Baz"},
+		{"id", "name"},
+		{"1", "Foo"},
+		{"3", "Baz"},
 	}
 	source.Previous = &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Bar"},
-			[]string{"3", "Baz"},
-			[]string{"4", "Foobar"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Bar"},
+			{"3", "Baz"},
+			{"4", "Foobar"},
 		},
 	}
 	if err := operation.Run(source); err != nil {
@@ -50,24 +50,24 @@ func TestOperationExcept(t *testing.T) {
 	source = &Source{
 		Previous: &Source{
 			Rows: [][]string{
-				[]string{"id", "name"},
-				[]string{"1", "Foo"},
-				[]string{"2", "Bar"},
-				[]string{"3", "Baz"},
-				[]string{"4", "Foobar"},
+				{"id", "name"},
+				{"1", "Foo"},
+				{"2", "Bar"},
+				{"3", "Baz"},
+				{"4", "Foobar"},
 			},
 		},
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Oof"},
-			[]string{"2", "Bar"},
-			[]string{"3", "Zab"},
-			[]string{"4", "Foobar"},
-			[]string{"5", "Foo"},
+			{"id", "name"},
+			{"1", "Oof"},
+			{"2", "Bar"},
+			{"3", "Zab"},
+			{"4", "Foobar"},
+			{"5", "Foo"},
 		},
 	}
 	expected = [][]string{
-		[]string{"id", "name"},
+		{"id", "name"},
 	}
 	if err, _ := operation.Construct(source, []string{"--except", "id"}); err != nil {
 		t.Fatalf("Unexpected --except failure: %s", err)
@@ -82,26 +82,26 @@ func TestOperationExcept(t *testing.T) {
 	source = &Source{
 		Previous: &Source{
 			Rows: [][]string{
-				[]string{"id", "name"},
-				[]string{"1", "Oof"},
-				[]string{"2", "Bar"},
-				[]string{"3", "Zab"},
-				[]string{"4", "Foobar"},
-				[]string{"5", "Foo"},
+				{"id", "name"},
+				{"1", "Oof"},
+				{"2", "Bar"},
+				{"3", "Zab"},
+				{"4", "Foobar"},
+				{"5", "Foo"},
 			},
 		},
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Bar"},
-			[]string{"3", "Baz"},
-			[]string{"4", "Foobar"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Bar"},
+			{"3", "Baz"},
+			{"4", "Foobar"},
 		},
 	}
 	expected = [][]string{
-		[]string{"id", "name"},
-		[]string{"1", "Oof"},
-		[]string{"3", "Zab"},
+		{"id", "name"},
+		{"1", "Oof"},
+		{"3", "Zab"},
 	}
 	if err, _ := operation.Construct(source, []string{"--except", "name"}); err != nil {
 		t.Fatalf("Unexpected --except failure: %s", err)

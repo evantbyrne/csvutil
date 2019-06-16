@@ -20,8 +20,8 @@ func (this *OperationCount) Construct(source *Source, args []string) (error, []s
 func (this *OperationCount) Run(source *Source) error {
 	count := len(source.Rows) - 1
 	source.Rows = [][]string{
-		[]string{this.column},
-		[]string{fmt.Sprintf("%d", count)},
+		{this.column},
+		{fmt.Sprintf("%d", count)},
 	}
 	return nil
 }

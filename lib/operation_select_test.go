@@ -7,12 +7,12 @@ import (
 func TestOperationSelect(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"username", "id", "group_id"},
-			[]string{"foo", "1", "10"},
-			[]string{"bar", "2", ""},
-			[]string{"baz", "3", "20"},
-			[]string{"four", "4", "20"},
-			[]string{"five", "5", ""},
+			{"username", "id", "group_id"},
+			{"foo", "1", "10"},
+			{"bar", "2", ""},
+			{"baz", "3", "20"},
+			{"four", "4", "20"},
+			{"five", "5", ""},
 		},
 	}
 	operation := &OperationSelect{}
@@ -27,12 +27,12 @@ func TestOperationSelect(t *testing.T) {
 	}
 
 	expected := [][]string{
-		[]string{"group_id", "username"},
-		[]string{"10", "foo"},
-		[]string{"", "bar"},
-		[]string{"20", "baz"},
-		[]string{"20", "four"},
-		[]string{"", "five"},
+		{"group_id", "username"},
+		{"10", "foo"},
+		{"", "bar"},
+		{"20", "baz"},
+		{"20", "four"},
+		{"", "five"},
 	}
 	if err, _ := operation.Construct(source, []string{"--select", "group_id,username"}); err != nil {
 		t.Fatalf("Unexpected --select failure: %s", err)

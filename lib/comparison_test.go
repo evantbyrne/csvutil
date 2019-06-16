@@ -7,13 +7,13 @@ import (
 func TestComparison(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Foo"},
-			[]string{"3", "Bar"},
-			[]string{"4", "Baz"},
-			[]string{"5", "Foobar"},
-			[]string{"4", "Baz"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Foo"},
+			{"3", "Bar"},
+			{"4", "Baz"},
+			{"5", "Foobar"},
+			{"4", "Baz"},
 		},
 	}
 

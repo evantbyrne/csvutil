@@ -7,12 +7,12 @@ import (
 func TestOperationValues(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"foo", "bar"},
-			[]string{"one", "two"},
+			{"foo", "bar"},
+			{"one", "two"},
 		},
 	}
 	expected := [][]string{
-		[]string{"one", "two"},
+		{"one", "two"},
 	}
 	operation := &OperationValues{}
 	if err, _ := operation.Construct(source, []string{"--values"}); err != nil {
@@ -27,12 +27,12 @@ func TestOperationValues(t *testing.T) {
 
 	source = &Source{
 		Rows: [][]string{
-			[]string{"total"},
-			[]string{"2"},
+			{"total"},
+			{"2"},
 		},
 	}
 	expected = [][]string{
-		[]string{"2"},
+		{"2"},
 	}
 	if err := operation.Run(source); err != nil {
 		t.Fatalf("Unexpected --select failure: %s", err)

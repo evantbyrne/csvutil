@@ -20,7 +20,7 @@ func (this *OperationDistinct) Construct(source *Source, args []string) (error, 
 func (this *OperationDistinct) Run(source *Source) error {
 	var columnIndexes []int
 	if this.columns == "*" {
-		for i, _ := range source.Rows[0] {
+		for i := range source.Rows[0] {
 			columnIndexes = append(columnIndexes, i)
 		}
 	} else {

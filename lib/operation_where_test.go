@@ -7,19 +7,19 @@ import (
 func TestOperationWhere(t *testing.T) {
 	source := &Source{
 		Rows: [][]string{
-			[]string{"id", "name"},
-			[]string{"1", "Foo"},
-			[]string{"2", "Foo"},
-			[]string{"3", "Bar"},
-			[]string{"4", "Baz"},
-			[]string{"5", "Foobar"},
-			[]string{"4", "Baz"},
+			{"id", "name"},
+			{"1", "Foo"},
+			{"2", "Foo"},
+			{"3", "Bar"},
+			{"4", "Baz"},
+			{"5", "Foobar"},
+			{"4", "Baz"},
 		},
 	}
 	expected := [][]string{
-		[]string{"id", "name"},
-		[]string{"1", "Foo"},
-		[]string{"2", "Foo"},
+		{"id", "name"},
+		{"1", "Foo"},
+		{"2", "Foo"},
 	}
 	operation := &OperationWhere{}
 	if err, _ := operation.Construct(source, []string{"--where"}); err == nil {
