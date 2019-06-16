@@ -69,16 +69,19 @@ func TestOperationSort(t *testing.T) {
 	if err := operation.Run(source); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
 	}
+	if !rowsEqual(source.Rows, expected) {
+		t.Fatalf("Unexpected --sort results: %v", source.Rows)
+	}
 
 	expected = [][]string{
 		[]string{"year", "cost"},
+		[]string{"x", "x"},
+		[]string{"y", "z"},
+		[]string{"z", "y"},
 		[]string{"2", "200.10"},
 		[]string{"10", "500"},
 		[]string{"2000", "50.01"},
 		[]string{"2019", "1000.99"},
-		[]string{"x", "x"},
-		[]string{"y", "z"},
-		[]string{"z", "y"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "year", "INT", "ASC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
@@ -86,16 +89,19 @@ func TestOperationSort(t *testing.T) {
 	if err := operation.Run(source); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
 	}
+	if !rowsEqual(source.Rows, expected) {
+		t.Fatalf("Unexpected --sort results: %v", source.Rows)
+	}
 
 	expected = [][]string{
 		[]string{"year", "cost"},
-		[]string{"10", "500"},
-		[]string{"y", "z"},
-		[]string{"z", "y"},
-		[]string{"x", "x"},
-		[]string{"2000", "50.01"},
-		[]string{"2", "200.10"},
 		[]string{"2019", "1000.99"},
+		[]string{"2", "200.10"},
+		[]string{"2000", "50.01"},
+		[]string{"x", "x"},
+		[]string{"z", "y"},
+		[]string{"y", "z"},
+		[]string{"10", "500"},
 	}
 	if err, _ := operation.Construct(source, []string{"--sort", "cost", "INT", "ASC"}); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
@@ -103,12 +109,15 @@ func TestOperationSort(t *testing.T) {
 	if err := operation.Run(source); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
 	}
+	if !rowsEqual(source.Rows, expected) {
+		t.Fatalf("Unexpected --sort results: %v", source.Rows)
+	}
 
 	expected = [][]string{
 		[]string{"year", "cost"},
 		[]string{"x", "x"},
-		[]string{"y", "z"},
 		[]string{"z", "y"},
+		[]string{"y", "z"},
 		[]string{"2000", "50.01"},
 		[]string{"2", "200.10"},
 		[]string{"10", "500"},
@@ -119,5 +128,8 @@ func TestOperationSort(t *testing.T) {
 	}
 	if err := operation.Run(source); err != nil {
 		t.Fatalf("Unexpected --sort failure: %s", err)
+	}
+	if !rowsEqual(source.Rows, expected) {
+		t.Fatalf("Unexpected --sort results: %v", source.Rows)
 	}
 }
