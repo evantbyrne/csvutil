@@ -12,10 +12,10 @@ Command line utility for transforming CSV files.
 
 ## Install
 
-Make sure that [Go](https://golang.org/) 1.9+ is installed and your PATH includes GOBIN. Then run the following:
+Terrarium may be installed directly from the source repository on a system with Go 1.16 or higher, and may be done like so:
 
 ```
-$ go get github.com/evantbyrne/csvutil
+$ go install github.com/evantbyrne/terrarium@latest
 ```
 
 **Note:** The $ at the beginning of newlines in this document represents the bash shell prompt, and is not a part of the actual commands.
